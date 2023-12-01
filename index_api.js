@@ -9,14 +9,34 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-// POST endpoint
-app.post("/submitData", (req, res) => {
-  const data = req.body;
-  console.log("Data received:", data);
-  res.send("Data received successfully!");
+const PORT = 3000;
+somefunction = (name) => {
+  return new Promise((resolve) => {
+    // Do some processing with the name (you can replace this with your actual logic)
+    const processedData = {
+      message: "received",
+      name: name,
+    };
+
+    // Resolve the promise with the processed data
+    resolve(processedData);
+  });
+};
+
+app.post("/recievedata", (req, res) => {
+  console.log(req.body);
+  const body = req.body;
+  somefunction(body.name).then((data) => {
+    res.json(data);
+  });
 });
 
-const PORT = 3000;
+app.get("/getsomedata", (req, res) => {
+  somefunction().then((data) => {
+    res.json(data);
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

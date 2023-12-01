@@ -3,48 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Data Sender</title>
+    <title>Document</title>
   </head>
   <body>
-    <h1>Data Sender</h1>
-    <form id="dataForm">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required />
-      <br />
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required />
-      <br />
-      <button type="button" onclick="submitData()">Submit</button>
+    <form id="form">
+      <label for="name">Name</label>
+      <input type="text" id="name" />
+      <label for="id">ID</label>
+      <input type="text" id="id" />
+      <button type="button" onclick="submitdata()">submit</button>
     </form>
-
     <script>
-      function submitData() {
-        const formData = new FormData();
-
-        // Append key-value pairs to the FormData object
-        formData.append("name", document.getElementById("name").value);
-        formData.append("email", document.getElementById("email").value);
-        data = {};
-        formData.forEach((value, key) => {
-          data[key] = value;
-        });
+      submitdata = () => {
+        const data = {
+          name: document.getElementById("name").value,
+          id: document.getElementById("id").value,
+        };
         console.log(data);
-
-        fetch("http://localhost:3000/submitData", {
+        const requestoptions = {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
-        })
-          .then((response) => response.json())
-          .then((responseData) => {
-            console.log(responseData);
+        };
+        fetch("http://localhost:3000/recievedata", requestoptions)
+          .then((res) => {
+            return res.json();
           })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      }
+          .then((data) => console.log(data));
+      };
+
+      fetch("http://localhost:3000/getsomedata")
+        .then((res) => {
+          return res.json();
+        })
+        .then((data1) => {
+          console.log(data1);
+        });
     </script>
   </body>
 </html>
